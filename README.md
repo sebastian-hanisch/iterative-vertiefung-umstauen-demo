@@ -7,7 +7,7 @@ Fünftes Stück der Konzepte-Reihe **„Umstauen: Untergrenze und Suche“** fü
 
 ## Warum dieses Problem
 
-Dass eine gute Schranke eine Suche klein macht, ist bekannt. Spannend ist die Frage, **welcher Teil** davon die Schranke ist und welcher das Verfahren drumherum. Hier lässt sich das sauber trennen: Dieselbe Untergrenze steckt in zwei Verfahren, in Branch and Bound mit Untergrenze und in IDA\*, dazu kommt das Verfahren aus Stück 4 ohne sie. Die Messung zeigt: Die **Untergrenze** bringt das Meiste, die **iterative Vertiefung** im Median höchstens das Dreifache (und manchmal weniger als Branch and Bound), und der Baum **wächst trotzdem exponentiell**.
+Dass eine gute Schranke eine Suche klein macht, ist bekannt. Spannend ist die Frage, **welcher Teil** davon die Schranke ist und welcher das Verfahren drumherum. Hier lässt sich das sauber trennen: Dieselbe Untergrenze steckt in zwei Verfahren, in Branch and Bound mit Untergrenze und in IDA\*, dazu kommt das Verfahren aus Stück 4 ohne sie. Die Messung zeigt: Die **Untergrenze** bringt das Meiste, die **iterative Vertiefung** im Median höchstens das Dreifache (und manchmal weniger als Branch and Bound), und die Knotenzahl **wächst trotzdem**: in den gemessenen Zellen je Einheit Lücke um das 1,5- bis 3-Fache.
 
 ## Modell
 
@@ -55,7 +55,7 @@ Die Verhältnisse sind je Bucht gebildet, dann der Median über die Buchten, in 
 | Frage | Befund |
 |---|---|
 | **Was bringt die Untergrenze?** | Gegenüber Branch and Bound ohne Untergrenze (Stück 4) braucht IDA\* im Median das **1,5- bis 184-Fache weniger** Knoten: 1,5 bei 3 × 2, 2,3 / 2,25 bei 4 × 2 / 3 × 3, 5,3 bei 3 × 4, 6,3 bei 5 × 2, 9,9 bei 4 × 3, 75 bei 4 × 4, 184 bei 5 × 3 (20 Buchten). Einzelne Buchten: bis zum 2 740-Fachen (5 × 3) und 1 230-Fachen (4 × 4). Bei 4 × 4 gibt die volle Aufzählung in 28 von 30 Buchten bei einer Million Knoten auf, IDA\* nie. |
-| **Ist die iterative Vertiefung der Gewinn?** | **Nein, nicht der große.** Branch and Bound mit Untergrenze braucht im Median das **0,71- bis 3,0-Fache** der Knoten von IDA\*: IDA\* ist bei kleiner Lücke besser (4 × 2: 2,00, 5 × 2: 3,00, 5 × 3: 1,79), Branch and Bound mit Untergrenze bei großer Lücke (3 × 3: 0,89, 3 × 4: 0,71, die 4 × 4 und 5 × 4 liegen bei 0,98 und 0,97). Grund: IDA\* zählt die Knoten der früheren Stufen mit, Branch and Bound nicht. Der Beitrag der Untergrenze (bis zum 184-Fachen) ist um Größenordnungen größer als der der Vertiefung (bis zum 3-Fachen). |
+| **Ist die iterative Vertiefung der Gewinn?** | **Nein, nicht der große.** Branch and Bound mit Untergrenze braucht im Median das **0,71- bis 3,0-Fache** der Knoten von IDA\*: IDA\* ist bei kleiner Lücke besser (4 × 2: 2,00, 5 × 2: 3,00, 5 × 3: 1,79), Branch and Bound mit Untergrenze bei großer Lücke (3 × 3: 0,89, 3 × 4: 0,71, die 4 × 4 und 5 × 4 liegen bei 0,98 und 0,97). Grund: IDA\* zählt die Knoten der früheren Stufen mit, Branch and Bound nicht. In den großen Zellen (4 × 3, 5 × 3, 4 × 4) ist der Beitrag der Untergrenze (Median 9,9- bis 184-fach) um ein bis zwei Größenordnungen größer als der der Vertiefung (0,98- bis 1,8-fach); in den kleinen Zellen liegen beide im selben Bereich. |
 | **Wie viele Budgetstufen?** | **Genau Lücke + 1** (Lücke = Optimum − Untergrenze aus Stück 2) in allen 100 + 100 + 100 + 60 + 40 + 40 + 20 + 30 + 20 = 510 Buchten; das folgt aus der Zulässigkeit der Untergrenze (Beweis im Expander) und ist in jeder Bucht nachgerechnet. Mittel 1,3 bei 3 × 2, 4 × 2, 5 × 2, 2,2 bei 4 × 3, 2,5 bei 3 × 3, 4,3 bei 3 × 4, höchstens 8 Stufen. |
 | **Wie wachsen die Knoten mit der Lücke?** (3 × 3, 100 Buchten) | Median bei Lücke 0 / 1 / 2 / 3 / 4 (19 / 31 / 33 / 13 / 4 Buchten): IDA\* 3 / 9 / 22 / 55 / 113, Branch and Bound mit Untergrenze 5 / 9 / 19 / 40 / 73. Verhältnisse aufeinanderfolgender Mediane: 3,0 / 2,4 / 2,5 / 2,1 (IDA\*) und 1,8 / 2,1 / 2,1 / 1,8 (Branch and Bound mit UG). Der Anteil der letzten Stufe an den Knoten fällt im Median von 100 % auf 8 %. |
 | **Und bei 3 × 4?** (40 Buchten) | Lücke 1 bis 7 (5 / 10 / 7 / 10 / 4 / 3 / 1 Buchten): IDA\* 12 / 37 / 54 / 105,5 / 171 / 399 / 672, Branch and Bound mit UG 13 / 36 / 37 / 78,5 / 105,5 / 238 / 354. Nur bei Lücke 1 liegt IDA\* vorn (12 gegen 13), ab Lücke 2 Branch and Bound mit Untergrenze. Anteil der letzten Stufe 50 % bis 2 %. |
@@ -70,9 +70,9 @@ Die Verhältnisse sind je Bucht gebildet, dann der Median über die Buchten, in 
 
 ## Ehrliche Grenzen
 
-- **Ohne Zustandsmerken und Symmetriebruch.** Gleiche Zustände zählen mehrfach, auch über die Budgetstufen hinweg. Mit ihnen schrumpft der Baum weiter; das ist Stück 6, hier ist es nicht gemessen.
+- **Ohne Zustandsmerken und Symmetriebruch.** Gleiche Zustände zählen mehrfach, auch über die Budgetstufen hinweg. Mit ihnen kann der Baum weiter schrumpfen; im Median bringt das bei IDA\* kaum etwas, im Schwanz bis zum 45-Fachen (Stück 6, hier nicht gemessen).
 - **Knoten statt Zeit.** IDA\* zählt die Knoten der früheren Stufen mit, die Untergrenze kostet pro Knoten Rechenzeit; Sekunden und Knoten je Sekunde sind nicht gemessen.
-- **Eine einfache Untergrenze.** Die Zahl der Blocker ist die schwächste der naheliegenden Schranken; stärkere würden den Baum weiter schneiden, nicht gemessen.
+- **Eine einfache Untergrenze.** Die Zahl der Blocker ist eine einfache Schranke; stärkere sind nicht untersucht.
 - **Große Zellen mit wenigen Buchten:** 4 × 4 mit 30, 5 × 4 und 5 × 3 mit je 20 Buchten. Der Median bei 5 × 3 beruht auf 20 Buchten (das Maximum der Schrankenwirkung ist ein Einzelwert), bei 5 × 4 fehlt der Vergleich mit Stück 4.
 - **Nur restricted, nur volle Buchten mit gleich hohen Stapeln, Platz 2 in den Tabellen.** Mit anderer Hubmenge (Stück 3) oder anderer Füllung ändern sich die Knotenzahlen.
 - **Der Schwanz:** Median und Mittel liegen bei 5 × 4 um das 97-Fache auseinander; aus dem Median allein folgt keine Laufzeit.
@@ -135,7 +135,7 @@ pip install -r requirements-dev.txt
 pytest tests/ -v
 ```
 
-114 Tests, rund eine Minute.
+114 Tests, rund 220 Sekunden (eine Messung unter Windows).
 
 Gebaut mit Streamlit und Plotly.
 

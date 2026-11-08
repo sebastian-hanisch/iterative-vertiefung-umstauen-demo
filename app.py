@@ -74,7 +74,7 @@ st.markdown(
     """
 Stück 4 hat gezeigt, dass die Suche über **alle Hubfolgen** explodiert. Hier kommt die **Untergrenze** aus Stück 2 dazu: Wer schon *g* Hübe gebraucht hat und im aktuellen Zustand noch **mindestens so viele Hübe braucht, wie Container blockieren**, kann den Teilbaum abschneiden, sobald die Summe das **Budget** übersteigt. **IDA\\*** (iterative Vertiefung) beginnt beim Budget der Untergrenze der Wurzel und erhöht es um 1, bis eine Lösung hineinpasst; die erste gefundene ist das Optimum. Die Demo **zählt die Knoten** von sechs Verfahren und fragt, **woher der Gewinn kommt**.
 
-Weiter unten: die Abschnitte **🔬 Experiment** (IDA\\* an der Mini-Bucht von Hand, die Budgetstufen dieser Bucht, was die Untergrenze bringt, Knoten je Lücke, wo es trotzdem knapp wird), **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**. Dies ist das fünfte Stück der Reihe „Umstauen: Untergrenze und Suche“; Zustandsmerken und Symmetriebruch, die den Baum weiter verkleinern, kommen im nächsten.
+Weiter unten: die Abschnitte **🔬 Experiment** (IDA\\* an der Mini-Bucht von Hand, die Budgetstufen dieser Bucht, was die Untergrenze bringt, Knoten je Lücke, wo es trotzdem knapp wird), **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**. Dies ist das fünfte Stück der Reihe „Umstauen: Untergrenze und Suche“; Zustandsmerken und Symmetriebruch, die den Baum weiter verkleinern können, kommen im nächsten.
 """
 )
 
@@ -261,9 +261,9 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Ohne Zustandsmerken und Symmetriebruch** | Gleiche Zustände zählen mehrfach, auch über die Budgetstufen hinweg. Mit ihnen schrumpft der Baum weiter; hier nicht gemessen. | das nächste Stück der Reihe |
+| **Ohne Zustandsmerken und Symmetriebruch** | Gleiche Zustände zählen mehrfach, auch über die Budgetstufen hinweg. Mit ihnen kann der Baum weiter schrumpfen; im Median bringt das bei IDA\\* kaum etwas, im Schwanz bis zum 45-Fachen (Stück 6, hier nicht gemessen). | das nächste Stück der Reihe |
 | **Knoten statt Zeit** | IDA\\* zählt die Knoten der früheren Stufen mit, die Untergrenze kostet pro Knoten Rechenzeit; Sekunden und Knoten je Sekunde sind nicht gemessen. | – |
-| **Eine einfache Untergrenze** | Die Zahl der Blocker ist die schwächste der naheliegenden Schranken. Stärkere würden den Baum weiter schneiden; hier nicht gemessen. | – |
+| **Eine einfache Untergrenze** | Die Zahl der Blocker ist eine einfache Schranke. Stärkere sind nicht untersucht. | – |
 | **Große Zellen mit wenigen Buchten** | 4 × 4 mit 30, 5 × 4 mit 20 Buchten: die Mediane dort sind grob. In 5 × 4 fehlt der Vergleich mit Stück 4 (nicht gerechnet). | – |
 | **Nur restricted, nur volle Buchten, Platz 2 in den Tabellen** | Mit anderer Hubmenge (Stück 3) oder anderer Füllung ändern sich die Knotenzahlen. | – |
 | **Zahlen aus Zufallsbuchten** | Größenordnungen aus festen Buchten, keine Messung an einem echten Terminal oder Lager. | – |
